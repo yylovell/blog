@@ -6,14 +6,26 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.yy'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+version = '0.0.1-SNAPSHOT' // 软件版本
+sourceCompatibility = '1.8' // 指定编译的JDK版本
 
+// 默认使用maven中央仓库，这里可改成自定义镜像库
 repositories {
 	mavenCentral()
 }
 
+// 自定义thymeleaf and layout dialect version
+//ext['thymeleaf.version'] = '3.0.3.RELEASE'
+//ext['thymeleaf-layout-dialect.version'] = '2.2.0'
+
+// 依赖关系
 dependencies {
+	// 该依赖对于编译发行是必须的
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// 添加Thymeleaf的依赖
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+
+	// 编译测试依赖
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
