@@ -10,7 +10,7 @@
 <h3 th:text="${title}">用户</h3>
 
 <form action="/users" method="post" th:object="${user}">
-    <!--<input type="hidden" name="id" th:value="*{id}">-->
+    <input type="hidden" name="id" th:value="*{id}">
     <input type="text" name="name" th:value="*{name}">
     <input type="email" name="email" th:value="*{email}">
     <input type="submit" value="提交">

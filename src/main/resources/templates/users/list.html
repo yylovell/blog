@@ -26,7 +26,7 @@
         </tr>
         <tr th:each="user : ${userList}">
             <td th:text="${user.id}"></td>
-            <td th:text="${user.name}"></td>
+            <td><a th:text="${user.name}" th:href="@{'/users/' + ${user.id}}"></a></td>
             <td th:text="${user.email}"></td>
             <td></td>
         </tr>

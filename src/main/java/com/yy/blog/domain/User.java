@@ -1,25 +1,36 @@
 package com.yy.blog.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity // 实体注解
 public class User {
 
-    private long id;
+    @Id // 主键注解
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增策略
+    private Long id;
+
     private String name;
+
     private String email;
 
-    public User() {
+    protected User() {// 防止直接使用
 
     }
 
-    public User(String name, String email) {
+    public User(Long id, String name, String email) {
+        this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,5 +48,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

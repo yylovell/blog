@@ -23,8 +23,20 @@ dependencies {
 	// 该依赖对于编译发行是必须的
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// 添加springboot-data-jpa依赖
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
+	// mysql依赖
+	compile('mysql:mysql-connector-java')
+
+	// 添加H2依赖
+	runtime('com.h2database:h2')
+
 	// 添加Thymeleaf的依赖
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	
+	// 热部署
+	compile("org.springframework.boot:spring-boot-devtools")
 
 	// 编译测试依赖
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
