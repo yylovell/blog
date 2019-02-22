@@ -3,6 +3,7 @@ package com.yy.blog.service;
 import javax.transaction.Transactional;
 
 import com.yy.blog.domain.*;
+import com.yy.blog.domain.es.EsBlog;
 import com.yy.blog.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,13 +23,29 @@ public class BlogServiceImpl implements BlogService {
 	@Autowired
 	private BlogRepository blogRepository;
 
+	@Autowired
+	private EsBlogService esBlogService;
+
 	/* (non-Javadoc)
 	 * @see com.waylau.spring.boot.blog.service.BlogService#saveBlog(com.waylau.spring.boot.blog.domain.Blog)
 	 */
 	@Transactional
 	@Override
 	public Blog saveBlog(Blog blog) {
-		return blogRepository.save(blog);
+		boolean isNew = (blog.getId() == null);
+		EsBlog esBlog = null;
+
+		Blog returnBlog = blogRepository.save(blog);
+
+		if (isNew) {
+			esBlog = new EsBlog(returnBlog);
+		} else {
+			esBlog = esBlogService.getEsBlogByBlogId(blog.getId());
+			esBlog.update(returnBlog);
+		}
+
+		esBlogService.updateEsBlog(esBlog);
+		return returnBlog;
 	}
 
 	/* (non-Javadoc)
@@ -38,6 +55,8 @@ public class BlogServiceImpl implements BlogService {
 	@Override
 	public void removeBlog(Long id) {
 		blogRepository.delete(id);
+		EsBlog esblog = esBlogService.getEsBlogByBlogId(id);
+		esBlogService.removeEsBlog(esblog.getId());
 	}
 
 	/* (non-Javadoc)

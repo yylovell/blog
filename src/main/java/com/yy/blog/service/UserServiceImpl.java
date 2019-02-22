@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Transactional
 	@Override
 	public User saveUser(User user) {
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public void removeUsersInBatch(List<User> users) {
 		userRepository.deleteInBatch(users);
 	}
-	
+
 	@Transactional
 	@Override
 	public User updateUser(User user) {
@@ -67,13 +68,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return users;
 	}
 
-	/*@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userRepository.findByUsername(username);
-	}*/
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return (UserDetails) userRepository.findByUsername(username);
+		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public List<User> listUsersByUsernames(Collection<String> usernames) {
+		return userRepository.findByUsernameIn(usernames);
 	}
 }
